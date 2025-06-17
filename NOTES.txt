@@ -1,0 +1,8 @@
+Menggunakan @vite jadi harus terinstall nodejs, kemudian pada cmd harus menjalankan :
+
+run npm dev
+
+untuk database menggunakan adminer lokasi nya pada C:\xampp\htdocs\adminer.php
+
+Link nodejs : https://nodejs.org/id/download
+Link adminer : https://www.adminer.org/en/

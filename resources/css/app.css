@@ -1,0 +1,139 @@
+@tailwind base;
+@tailwind components;
+
+/*Layer: Components*/
+@layer components {
+  /* Card */
+  .card {
+    @apply bg-white dark:bg-gray-800 text-black dark:text-white rounded-2xl shadow-lg overflow-hidden;
+  }
+
+  /* Buttons */
+  .btn {
+    @apply inline-flex items-center justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-lg transition;
+  }
+  .btn-primary {
+    @apply bg-blue-600 text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500;
+  }
+  .btn-success {
+    @apply bg-green-600 text-white hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500;
+  }
+  .btn-danger {
+    @apply bg-red-600 text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500;
+  }
+  .btn-warning {
+    @apply bg-yellow-400 text-gray-800 hover:bg-yellow-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-300;
+  }
+
+  /* Badges */
+  .badge {
+    @apply inline-block px-2 py-1 text-xs font-semibold rounded-full;
+  }
+  .badge-info    { @apply bg-blue-100 text-blue-800 dark:bg-blue-800 dark:text-blue-100; }
+  .badge-success { @apply bg-green-100 text-green-800 dark:bg-green-800 dark:text-green-100; }
+  .badge-warning { @apply bg-yellow-100 text-yellow-800 dark:bg-yellow-800 dark:text-yellow-100; }
+  .badge-danger  { @apply bg-red-100 text-red-800 dark:bg-red-800 dark:text-red-100; }
+
+  /* Alerts */
+  .alert {
+    @apply px-4 py-3 rounded-lg mb-4 flex items-center space-x-2;
+  }
+  .alert-success { @apply bg-green-50 border border-green-200 text-green-800 dark:bg-green-900 dark:border-green-600 dark:text-green-100; }
+  .alert-danger  { @apply bg-red-50 border border-red-200 text-red-800 dark:bg-red-900 dark:border-red-600 dark:text-red-100; }
+  .alert-info    { @apply bg-blue-50 border border-blue-200 text-blue-800 dark:bg-blue-900 dark:border-blue-600 dark:text-blue-100; }
+
+  /* Table */
+  .table-custom {
+    @apply min-w-full bg-white dark:bg-gray-800 text-black dark:text-white rounded-xl overflow-hidden;
+  }
+  .table-custom thead {
+    @apply bg-gray-800 text-white;
+  }
+  .table-custom th,
+  .table-custom td {
+    @apply px-4 py-3 border-t border-gray-200 dark:border-gray-600;
+  }
+  .table-custom tbody tr:hover {
+    @apply bg-gray-50 dark:bg-gray-700;
+  }
+
+  /*Glass Effect Components*/
+  .glass-card {
+    @apply bg-white/10 backdrop-blur-lg border border-white/20 dark:border-gray-600 rounded-xl p-6 text-white shadow-xl;
+  }
+
+  .glass-container {
+    @apply bg-gradient-to-br from-blue-900 via-blue-700 to-blue-600 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 min-h-screen;
+  }
+
+  .btn-glass {
+    @apply bg-white text-blue-700 hover:bg-yellow-400 hover:text-black dark:bg-gray-700 dark:text-white font-semibold px-4 py-2 rounded-lg transition;
+  }
+
+  .profile-label {
+    @apply text-yellow-400 font-semibold text-base flex items-center gap-2;
+  }
+
+  .fade-in {
+    animation: fadeIn 0.7s ease-in-out;
+  }
+
+  .main-theme {
+    @apply bg-gradient-to-br from-blue-900 via-blue-700 to-blue-600 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 min-h-screen;
+  }
+  .nav-link-active {
+    @apply bg-blue-600 text-white dark:bg-blue-700;
+  }
+  .offcanvas {
+    @apply bg-white text-black dark:bg-gray-900 dark:text-white transition-colors duration-300;
+  }
+}
+
+/*Layer: Utilities*/
+@layer utilities {
+  .shadow-sm {
+    @apply shadow-md;
+  }
+
+  .offcanvas {
+    background-color: theme('colors.white') !important;
+    color: theme('colors.black') !important;
+  }
+
+  .dark .offcanvas {
+    background-color: theme('colors.gray.900') !important;
+    color: theme('colors.white') !important;
+  }
+  
+   .navbar {
+    @apply transition-colors duration-300;
+  }
+
+  .dark .navbar {
+    background-color: #1f2937 !important; /* gray-800 */
+    color: #ffffff !important;
+  }
+
+  .dark .navbar-brand {
+    color: #ffffff !important;
+  }
+
+  .dark .btn-outline-secondary {
+    @apply border-white text-white hover:bg-white hover:text-black;
+  }
+
+  .fade-in {
+    animation: fadeIn 0.5s ease-in-out;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  
+   .transition-theme {
+    transition: background-color 0.4s ease, color 0.4s ease;
+  }
+}
+
+@tailwind utilities;
