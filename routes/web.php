@@ -38,6 +38,8 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/checkout', [CartController::class, 'checkoutForm'])->name('checkout.form');
     Route::post('/checkout', [CartController::class, 'checkoutSubmit'])->name('checkout.submit');
+    Route::post('/cart/delete-selected', [CartController::class, 'deleteSelected'])->name('cart.delete.selected');
+
 
     Route::get('/transaksi', [TransaksiController::class, 'index'])->name('transaksi.index');
     Route::get('/transaksi/{invoice}/print', [TransaksiController::class, 'print'])->name('transaksi.print');

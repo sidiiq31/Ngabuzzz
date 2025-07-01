@@ -23,12 +23,14 @@
     @csrf
 
     <div class="mb-3">
-      <label for="image" class="form-label text-white">📸 Gambar Mobil <span class="text-danger">*</span></label>
-      <input type="file" name="image" id="image"
-             class="form-control @error('image') is-invalid @enderror"
-             accept="image/*" multiple required>
-      @error('images')<div class="invalid-feedback">{{ $message }}</div>@enderror
-      @error('images.*')<div class="invalid-feedback">{{ $message }}</div>@enderror
+      <label for="images" class="form-label text-white">📸 Gambar Mobil <span class="text-danger">*</span></label>
+      <input type="file" name="images[]" id="images"
+              class="form-control @error('images') is-invalid @enderror"
+              accept=".jpg,.jpeg,.png,.gif"
+              multiple required>
+        @error('images')<div class="invalid-feedback">{{ $message }}</div>@enderror
+        @error('images.*')<div class="invalid-feedback">{{ $message }}</div>@enderror
+
     </div>
 
     <div class="mb-3">

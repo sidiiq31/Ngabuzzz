@@ -16,13 +16,23 @@
     <div class="col-12 col-md-6 col-lg-4">
       <div class="glass-card h-100 d-flex flex-column shadow border-0">
         {{-- Gambar mobil --}}
-        @if($car->image)
-          <img src="{{ asset('storage/'.$car->image) }}" class="card-img-top rounded-top" alt="{{ $car->name }}" style="object-fit:cover; height:180px;">
-        @else
-          <div class="bg-secondary text-white d-flex align-items-center justify-content-center rounded-top" style="height:180px;">
-            <i class="bi bi-image fs-3 me-2"></i> No Image
-          </div>
-        @endif
+        
+        @if($car->images && count(json_decode($car->images)) > 0)
+  <div id="carousel-{{ $car->id }}" class="carousel slide carousel-fade" data-bs-ride="carousel" data-bs-interval="5000">
+    <div class="carousel-inner rounded-top" style="height:180px; overflow:hidden;">
+      @foreach(json_decode($car->images) as $index => $img)
+        <div class="carousel-item {{ $index === 0 ? 'active' : '' }}">
+          <img src="{{ asset('storage/'.$img) }}" class="d-block w-100" alt="{{ $car->name }}" style="object-fit:cover; height:180px;">
+        </div>
+      @endforeach
+    </div>
+  </div>
+@else
+  <div class="bg-secondary text-white d-flex align-items-center justify-content-center rounded-top" style="height:180px;">
+    <i class="bi bi-image fs-3 me-2"></i> No Image
+  </div>
+@endif
+
 
         <div class="card-body d-flex flex-column text-white">
           <h5 class="card-title">{{ $car->name }}</h5>

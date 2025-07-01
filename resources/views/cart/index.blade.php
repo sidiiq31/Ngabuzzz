@@ -22,7 +22,7 @@
 @endif
 
 @if(count($cart))
-  <form action="{{ route('checkout.form') }}" method="GET" class="fade-in"> {{-- Ganti ke POST jika dibutuhkan --}}
+  <form action="{{ route('checkout.form') }}" method="GET" class="fade-in">
     @csrf
     <div class="glass-card table-responsive">
       <table class="table table-hover table-borderless align-middle text-white mb-0">
@@ -54,14 +54,6 @@
               <td>Rp {{ number_format($item['price'], 2, ',', '.') }}</td>
               <td>{{ $item['quantity'] }}</td>
               <td>Rp {{ number_format($subtotal, 2, ',', '.') }}</td>
-              <td>
-                <form action="{{ route('cart.remove', $item['car_id']) }}" method="POST" class="d-inline">
-                  @csrf
-                  <button class="btn btn-sm btn-outline-danger" type="submit">
-                    <i class="bi bi-trash-fill"></i>
-                  </button>
-                </form>
-              </td>
             </tr>
           @endforeach
           <tr class="border-top border-light">
@@ -75,7 +67,23 @@
     <button type="submit" class="btn btn-success mt-3 fw-semibold fade-in">
       <i class="bi bi-bag-check"></i> Checkout yang Dipilih
     </button>
+
   </form>
+  <form action="{{ route('cart.delete.selected') }}" method="POST" class="d-inline-block">
+  @csrf
+  <input type="hidden" name="items[]" id="deleteItemsInput">
+  <button type="submit" class="btn btn-danger mt-3 fw-semibold ms-2 fade-in" onclick="copySelectedItems()">
+    <i class="bi bi-trash"></i> Hapus yang Dipilih
+  </button>
+</form>
+
+<script>
+  function copySelectedItems() {
+    const selected = Array.from(document.querySelectorAll('.item-checkbox:checked')).map(cb => cb.value);
+    const input = document.getElementById('deleteItemsInput');
+    input.value = selected.join(',');
+  }
+</script>
 @else
   <div class="alert alert-info fade-in">
     <i class="bi bi-info-circle"></i> Keranjang kosong.

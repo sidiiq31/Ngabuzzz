@@ -23,18 +23,24 @@
     @csrf @method('PATCH')
 
     <div class="mb-3">
-      <label for="image" class="form-label text-white">📸 Gambar Mobil</label>
-      <input type="file" name="image" id="image"
-             class="form-control @error('image') is-invalid @enderror"
-             accept="image/*">
-      @error('image')<div class="invalid-feedback">{{ $message }}</div>@enderror
+      <label for="images" class="form-label text-white">📸 Gambar Mobil (boleh upload 1–2)</label>
+      <input type="file" name="images[]" id="images"
+             class="form-control @error('images') is-invalid @enderror"
+             accept=".jpg,.jpeg,.png,.gif"
+             multiple>
+      @error('images')<div class="invalid-feedback">{{ $message }}</div>@enderror
+      @error('images.*')<div class="invalid-feedback">{{ $message }}</div>@enderror
 
-      @if($car->image)
-        <div class="mt-3">
-          <img src="{{ asset('storage/'.$car->image) }}"
-               alt="{{ $car->name }}"
-               class="img-thumbnail shadow-sm"
-               style="max-width:150px;">
+      @if($car->images)
+        <div class="mt-3 d-flex flex-wrap gap-3">
+          @foreach(json_decode($car->images, true) as $img)
+            <div>
+              <img src="{{ asset('storage/'.$img) }}"
+                   alt="{{ $car->name }}"
+                   class="img-thumbnail shadow-sm"
+                   style="max-width: 120px;">
+            </div>
+          @endforeach
         </div>
       @endif
     </div>

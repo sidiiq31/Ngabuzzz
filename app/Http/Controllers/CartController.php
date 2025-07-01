@@ -29,17 +29,31 @@ class CartController extends Controller
     public function checkoutForm(Request $request)
     {
         $selected = $request->input('items', []);
-    $cart = session('cart', []);
-    $items = collect($cart)->only($selected)->toArray();
+        $cart = session('cart', []);
+        $items = collect($cart)->only($selected)->toArray();
 
-    if (empty($items)) {
-        return redirect()->route('cart.index')->with('error', 'Tidak ada item yang dipilih untuk checkout.');
+        if (empty($items)) {
+            return redirect()->route('cart.index')->with('error', 'Tidak ada item yang dipilih untuk checkout.');
+        }
+
+        return view('cart.checkout', [
+            'items' => $items
+        ]);
     }
 
-    return view('cart.checkout', [
-        'items' => $items
-    ]);
+    public function deleteSelected(Request $request)
+    {
+        $selected = explode(',', $request->input('items')[0] ?? '');
+        $cart = session('cart', []);
+
+        foreach ($selected as $carId) {
+            unset($cart[$carId]);
+        }
+
+        session()->put('cart', $cart);
+        return redirect()->route('cart.index')->with('success', 'Item berhasil dihapus dari keranjang.');
     }
+
 
 public function checkoutSubmit(Request $request)
 {

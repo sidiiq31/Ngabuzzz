@@ -24,19 +24,32 @@ class CarController extends Controller
 
     public function store(Request $req)
     {
-        $data = $req->validate([
-            'category_id'=>'required|exists:categories,id',
-            'name'=>'required',
-            'description'=>'nullable',
-            'stock'=>'required|integer|min:0',
-            'price'=>'required|numeric|min:0',
-            'image'=> 'nullable|image|mimes:jpg,jpeg,png,gif|max:2048',
-        ]);
-         if ($req->hasFile('image')) {
-            $data['image'] = $req->file('image')->store('cars', 'public');
+        if ($req->hasFile('images') && !is_array($req->file('images'))) {
+            $req->merge([
+                'images' => [$req->file('images')]
+            ]);
         }
+
+        $data = $req->validate([
+            'category_id' => 'required|exists:categories,id',
+            'name'        => 'required',
+            'description' => 'nullable',
+            'stock'       => 'required|integer|min:0',
+            'price'       => 'required|numeric|min:0',
+            'images'      => 'required|array|min:1|max:2',
+            'images.*'    => 'required|image|mimes:jpg,jpeg,png,gif|max:2048',
+        ]);
+
+        $imagePaths = [];
+        foreach ($req->file('images') as $image) {
+            $imagePaths[] = $image->store('cars', 'public');
+        }
+
+        $data['images'] = json_encode($imagePaths);
+
         Car::create($data);
-        return redirect()->route('cars.index')->with('success','Mobil ditambahkan.');
+
+        return redirect()->route('cars.index')->with('success', 'Mobil ditambahkan.');
     }
 
     public function show(Car $car)
@@ -57,38 +70,55 @@ class CarController extends Controller
 
     public function update(Request $request, Car $car)
     {
+        if ($request->hasFile('images') && !is_array($request->file('images'))) {
+            $request->merge([
+                'images' => [$request->file('images')]
+            ]);
+        }
+
         $data = $request->validate([
             'category_id' => 'required|exists:categories,id',
             'name'        => 'required|string|max:255',
             'description' => 'nullable|string',
             'stock'       => 'required|integer|min:0',
             'price'       => 'required|numeric|min:0',
-            'image'       => 'nullable|image|mimes:jpg,jpeg,png,gif|max:2048',
+            'images'      => 'nullable|array|min:1|max:2',
+            'images.*'    => 'image|mimes:jpg,jpeg,png,gif|max:2048',
         ]);
 
-        if ($request->hasFile('image')) {
-            if ($car->image) {
-                Storage::disk('public')->delete($car->image);
+        if ($request->hasFile('images')) {
+            if ($car->images) {
+                foreach (json_decode($car->images) as $oldImage) {
+                    Storage::disk('public')->delete($oldImage);
+                }
             }
-            $data['image'] = $request->file('image')->store('cars', 'public');
+
+            $newImages = [];
+            foreach ($request->file('images') as $image) {
+                $newImages[] = $image->store('cars', 'public');
+            }
+
+            $data['images'] = json_encode($newImages);
+        } else {
+            $data['images'] = $car->images;
         }
 
         $car->update($data);
 
-        return redirect()->route('cars.index')
-                         ->with('success', 'Mobil berhasil diperbarui.');
-        //
+        return redirect()->route('cars.index')->with('success', 'Mobil berhasil diperbarui.');
     }
 
     public function destroy(Car $car)
     {
-        if ($car->image) {
-            Storage::disk('public')->delete($car->image);
+        if ($car->images) {
+            foreach (json_decode($car->images) as $img) {
+                Storage::disk('public')->delete($img);
+            }
         }
+
         $car->delete();
 
-        return redirect()->route('cars.index')
-                         ->with('success', 'Mobil berhasil dihapus.');
+        return redirect()->route('cars.index')->with('success', 'Mobil berhasil dihapus.');
         //
     }
 }
