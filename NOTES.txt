@@ -1,4 +1,5 @@
-Menggunakan @vite jadi harus terinstall nodejs, kemudian pada cmd harus menjalankan :
+harus terinstall nodejs karena untuk Menjalankan Build Tool frontend modern seperti Vite.
+kemudian pada cmd harus menjalankan :
 
 run npm dev
 
@@ -6,3 +7,6 @@ untuk database menggunakan adminer lokasi nya pada C:\xampp\htdocs\adminer.php
 
 Link nodejs : https://nodejs.org/id/download
 Link adminer : https://www.adminer.org/en/
+
+
+kenapa menggunakan vite karena Vite lebih cepat, modern, dan efisien untuk membangun aplikasi frontend (seperti Vue, React, Tailwind), baik standalone maupun dalam Laravel.
